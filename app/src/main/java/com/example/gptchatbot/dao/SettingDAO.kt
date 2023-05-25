@@ -12,7 +12,7 @@ interface SettingDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSetting(setting: Setting)
 
-    @Query("SELECT * FROM message ORDER BY id ASC")
+    @Query("SELECT * FROM setting ORDER BY id ASC")
     fun getSetting(): List<Setting>
 }
 
