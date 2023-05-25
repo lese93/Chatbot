@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:max="20"
-        android:min="20"
+        android:min="-20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@id/frequencyPenaltyNumber"

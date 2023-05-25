@@ -5,10 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Message(
+class Setting(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "sender") val sender: Int,
-    @ColumnInfo(name = "content") val content: String,
-    @ColumnInfo(name = "timestamp") val timestamp: Long
+    @ColumnInfo(name = "temperature") val temperature: Float,
+    @ColumnInfo(name = "frequency_panalty") val frequencyPanalty: Float,
 )

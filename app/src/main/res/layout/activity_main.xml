@@ -22,7 +22,9 @@
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/messageEditText"
-        app:layout_constraintTop_toBottomOf="@+id/settingBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/settingBtn"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="15dp" />
 
     <EditText
         android:id="@+id/messageEditText"
