@@ -6,16 +6,18 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/user_message"
+        android:id="@+id/notice_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/user_message_box"
+        android:background="@drawable/notice_message_box"
         android:maxWidth="270dp"
         android:padding="10dp"
         android:text="This is a message"
-        android:textColor="@color/black"
-        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
