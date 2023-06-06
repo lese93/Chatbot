@@ -8,32 +8,37 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gptchatbot.R
 import com.example.gptchatbot.data.Message
+import com.example.gptchatbot.databinding.NoticeListItemBinding
+import com.example.gptchatbot.databinding.OpponentListItemBinding
+import com.example.gptchatbot.databinding.UserListItemBinding
 import com.example.gptchatbot.viewholder.NoticeViewHolder
 import com.example.gptchatbot.viewholder.OpponentViewHolder
 import com.example.gptchatbot.viewholder.UserViewHolder
 
 class MessageAdapter(private val context: Context, private val messageList: List<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val selectedMessages = mutableListOf<Message>()
+    private var showCheckBox = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
+        val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             0 -> {
-                val view =
-                    LayoutInflater.from(context).inflate(R.layout.user_list_item, parent, false)
-                UserViewHolder(view)
+                val binding = UserListItemBinding.inflate(layoutInflater, parent, false)
+                UserViewHolder(binding)
             }
             1 -> {
-                val view =
-                    LayoutInflater.from(context).inflate(R.layout.opponent_list_item, parent, false)
-                OpponentViewHolder(view)
-
+                val binding = OpponentListItemBinding.inflate(layoutInflater, parent, false)
+                OpponentViewHolder(binding)
             }
             else -> {
-                val view =
-                    LayoutInflater.from(context).inflate(R.layout.notice_list_item, parent, false)
-                NoticeViewHolder(view)
+                val binding = NoticeListItemBinding.inflate(layoutInflater, parent, false)
+                NoticeViewHolder(binding)
             }
         }
+
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -41,13 +46,16 @@ class MessageAdapter(private val context: Context, private val messageList: List
 
         when (holder) {
             is UserViewHolder -> {
-                holder.message.text = currentMessage.content
+                holder.bind(currentMessage, position, selectedMessages)
+                holder.setCheckBoxVisibility(showCheckBox)
             }
             is OpponentViewHolder -> {
-                holder.message.text = currentMessage.content
+                holder.bind(currentMessage, position, selectedMessages)
+                holder.setCheckBoxVisibility(showCheckBox)
             }
             is NoticeViewHolder -> {
-                holder.message.text = currentMessage.content
+                holder.bind(currentMessage, position, selectedMessages)
+                holder.setCheckBoxVisibility(showCheckBox)
             }
         }
     }
@@ -59,6 +67,15 @@ class MessageAdapter(private val context: Context, private val messageList: List
 
     override fun getItemCount(): Int {
         return messageList.size
+    }
+
+    fun showCheckBox(show: Boolean) {
+        showCheckBox = show
+        notifyDataSetChanged()
+    }
+
+    fun getSelectedMessages(): List<Message> {
+        return selectedMessages
     }
 
 

@@ -32,6 +32,7 @@ class SettingActivity : AppCompatActivity() {
         val temperatureNum = binding.temperatureNumber
         val frequencyPenaltyNum = binding.frequencyPenaltyNumber
         val chatResetBtn = binding.chatResetBtn
+        val shareBtn = binding.shareBtn
 
 
         temperatureNum.text = viewModel.getTemperature().toString()
@@ -50,7 +51,7 @@ class SettingActivity : AppCompatActivity() {
                     progress: Int, fromUser: Boolean
                 ) {
                     val num = progress / 10.0
-                    temperatureNum.setText("" + num)
+                    temperatureNum.text = "$num"
                 }
 
                 override fun onStartTrackingTouch(seek: SeekBar) {
@@ -73,7 +74,7 @@ class SettingActivity : AppCompatActivity() {
                     progress: Int, fromUser: Boolean
                 ) {
                     val num = progress / 10.0
-                    frequencyPenaltyNum.setText("" + num)
+                    frequencyPenaltyNum.text = "$num"
                 }
 
                 override fun onStartTrackingTouch(seek: SeekBar) {
@@ -85,15 +86,26 @@ class SettingActivity : AppCompatActivity() {
         }
 
         chatResetBtn.setOnClickListener {
-            val temperatureValue = temperatureNum.text.toString().toFloat()
-            val frequencyPenaltyValue = frequencyPenaltyNum.text.toString().toFloat()
-
-            viewModel.saveTemperature(temperatureValue)
-            viewModel.saveFrequencyPenalty(frequencyPenaltyValue)
+            viewModel.deleteAllMessages()
 
             finish()
         }
+
+        shareBtn.setOnClickListener {
+            val returnIntent = Intent()
+            returnIntent.putExtra("shareMode", true)
+            setResult(RESULT_OK, returnIntent)
+            finish()
+        }
+
     }
 
+    override fun onDestroy() {
+        val temperatureValue = binding.temperatureNumber.text.toString().toFloat()
+        val frequencyPenaltyValue = binding.frequencyPenaltyNumber.text.toString().toFloat()
 
+        viewModel.saveTemperature(temperatureValue)
+        viewModel.saveFrequencyPenalty(frequencyPenaltyValue)
+        super.onDestroy()
+    }
 }

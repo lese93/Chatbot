@@ -14,4 +14,6 @@ interface MessageDAO {
 
     @Query("SELECT * FROM message ORDER BY id ASC")
     fun getAllMessages(): List<Message>
+    @Query("DELETE FROM message")
+    fun deleteAllMessages()
 }

@@ -1,5 +1,6 @@
 package com.example.gptchatbot.api
 
+import com.example.gptchatbot.BuildConfig
 import com.example.gptchatbot.data.Gpt3Request
 import com.example.gptchatbot.data.Gpt3Resp
 import com.google.gson.annotations.SerializedName
@@ -13,7 +14,7 @@ import retrofit2.http.POST
 interface Gpt3Api {
     @Headers(
         "Content-Type: application/json",
-        "Authorization: Bearer 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"
+        "Authorization: Bearer " + BuildConfig.API_KEY
     )
     @POST("v1/completions")
     suspend fun sendMessage(@Body request: Gpt3Request): Gpt3Resp

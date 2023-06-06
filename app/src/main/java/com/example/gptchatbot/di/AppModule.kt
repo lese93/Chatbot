@@ -9,6 +9,7 @@ import com.example.gptchatbot.dao.MessageDAO
 import com.example.gptchatbot.data.Message
 import com.example.gptchatbot.database.MessageDataBase
 import com.example.gptchatbot.repository.MessageRepository
+import com.example.gptchatbot.util.SharedPreferencesHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,14 +41,21 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMessageRepository(messageDAO: MessageDAO): MessageRepository {
-        return MessageRepository(messageDAO)
+    fun provideMessageRepository(messageDAO: MessageDAO,
+                                 sharedPreferencesHelper: SharedPreferencesHelper): MessageRepository {
+        return MessageRepository(messageDAO,sharedPreferencesHelper)
     }
 
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("chat_bot_preferences", Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferencesHelper(sharedPreferences: SharedPreferences): SharedPreferencesHelper {
+        return SharedPreferencesHelper(sharedPreferences)
     }
 
 
