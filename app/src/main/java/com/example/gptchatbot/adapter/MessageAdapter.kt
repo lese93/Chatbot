@@ -15,7 +15,7 @@ import com.example.gptchatbot.viewholder.NoticeViewHolder
 import com.example.gptchatbot.viewholder.OpponentViewHolder
 import com.example.gptchatbot.viewholder.UserViewHolder
 
-class MessageAdapter(private val context: Context, private val messageList: List<Message>) :
+class MessageAdapter(private val context: Context, private var messageList: List<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val selectedMessages = mutableListOf<Message>()
@@ -78,5 +78,8 @@ class MessageAdapter(private val context: Context, private val messageList: List
         return selectedMessages
     }
 
-
+    fun submitList(messages: List<Message>) {
+        this.messageList = messages
+        notifyDataSetChanged()
+    }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -51,16 +52,23 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-        viewModel.liveData.observe(this) {
-            messageAdapter = MessageAdapter(this, viewModel.loadMessages())
+        messageAdapter = MessageAdapter(this, viewModel.loadMessages())
 
-            with(binding.chatRecyclerView) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                adapter = messageAdapter
-            }
-//            messageAdapter.notifyDataSetChanged()
+        with(binding.chatRecyclerView) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = messageAdapter
+        }
+        viewModel.liveData.observe(this) {
+            messageAdapter.submitList(it)
             Log.e("adapter Item Count", "" + messageAdapter.itemCount)
             binding.chatRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+        }
+
+        viewModel.toastLiveData.observe(this) {
+            if (it.isNotEmpty()) {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                viewModel.resetToast()
+            }
         }
 
         binding.messageEditText.addTextChangedListener { editable ->
@@ -81,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 val sharedText = selectedMessages.joinToString(separator = "\n") { message ->
                     val sender =
                         when (message.sender) {
-                            0-> "Me"
-                            1-> "GPT"
+                            0 -> "Me"
+                            1 -> "GPT"
                             else -> it
                         }
                     " $sender : ${message.content}"
@@ -106,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             val timestamp = System.currentTimeMillis()
 
             val message = Message(sender = sender, content = content, timestamp = timestamp)
-            val exceptionMessage:String?
+            val exceptionMessage: String?
             hideKeyboard()
             binding.messageEditText.setText("")
             viewModel.sendMessage(message)

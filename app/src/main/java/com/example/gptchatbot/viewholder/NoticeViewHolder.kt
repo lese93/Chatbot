@@ -27,5 +27,4 @@ class NoticeViewHolder(private val binding: NoticeListItemBinding) :
     fun setCheckBoxVisibility(showCheckBox: Boolean) {
         binding.checkbox.visibility = if (showCheckBox) View.VISIBLE else View.GONE
     }
-
 }

@@ -45,10 +45,10 @@ class MessageRepository constructor(
         liveData.notifyObserver()
     }
 
-    suspend fun sendMessage(message: Message): String? {
+    suspend fun sendMessage(message: Message) {
         addMessageData(message)
         var gpt3Message: Message
-        var exceptionMessage: String? =""
+
         try {
             val gpt3Api = Gpt3Api.create()
             val request = Gpt3Request(
@@ -68,14 +68,13 @@ class MessageRepository constructor(
             addMessageData(gpt3Message)
             Log.d("GptResp", "" + resp.toString())
         } catch (e: HttpException) {
-            exceptionMessage = e.message.toString()
-            Log.e("GptResp", "HttpException: " + e.message)
+            Log.e("GptResp", "HttpException: " + e.message.toString())
+            throw e
         } catch (e: Exception) {
-            exceptionMessage = e.message.toString()
-            Log.e("GptResp", "Exception: " + e.message)
+            Log.e("GptResp", "Exception: " + e.message.toString())
+            throw e
         }
 
-        return exceptionMessage
     }
 
     fun deleteAllMessages() {
@@ -86,6 +85,5 @@ class MessageRepository constructor(
         liveData.value?.clear()
         liveData.notifyObserver()
     }
-
 
 }
