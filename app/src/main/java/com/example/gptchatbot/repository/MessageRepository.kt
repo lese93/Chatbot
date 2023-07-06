@@ -61,7 +61,7 @@ class MessageRepository constructor(
             val choice = resp.choices[0]
             gpt3Message = Message(
                 sender = 1,
-                content = choice.text,
+                content = choice.text.trim(),
                 timestamp = System.currentTimeMillis()
             )
 
